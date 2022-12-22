@@ -19,7 +19,8 @@ const schema = new mongoose.Schema({
     owner:{
         type:mongoose.SchemaTypes.ObjectId,
         ref:'Users'
-    }
+    },
+    image:String
 })
 
 const petModel = mongoose.model(collection,schema);

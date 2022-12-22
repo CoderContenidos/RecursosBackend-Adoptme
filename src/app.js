@@ -9,7 +9,7 @@ import sessionsRouter from './routes/sessions.router.js';
 
 const app = express();
 const PORT = process.env.PORT||8080;
-const connection = mongoose.connect(`URL de mongo aquí`)
+const connection = mongoose.connect(`URL DE MONGO`)
 
 app.use(express.json());
 app.use(cookieParser());
