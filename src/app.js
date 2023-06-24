@@ -14,6 +14,9 @@ const connection = mongoose.connect(process.env.MONGO_URL)
 app.use(express.json());
 app.use(cookieParser());
 
+app.use('/api/alive/', (req, res) => {
+  res.json({ message: `API ALIVE IN ${process.env.NODE_ENV} updated!`})
+})
 app.use('/api/users',usersRouter);
 app.use('/api/pets',petsRouter);
 app.use('/api/adoptions',adoptionsRouter);
