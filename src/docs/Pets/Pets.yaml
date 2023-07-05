@@ -1,0 +1,50 @@
+paths:
+  /api/pets/:
+    get:
+      summary: Obtiene todas las mascotas
+      tags:
+        - Pets
+      responses:
+        "200":
+          description: Las mascotas fueron obtenidas exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Pet"
+
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado de mongo
+        name:
+          type: String
+          description: nombre de la mascota
+        specie:
+          type: String
+          description: raza de la mascota
+        birthDate:
+          type: Date
+          description: fecha de nacimiento
+        adopted:
+          type: Boolean
+          description: flag qué indica sí la mascota ha sido adoptada
+        owner:
+          type: ObjectId
+          description: Id del humano de la mascota
+        image:
+          type: String
+          description: foto de la mascota
+      example:
+        _id: ObjectId("as35f3as54d3v51ad3f5g454315")
+        name: Firulais
+        specie: Golden Retriever
+        birthDate: 03/04/2020
+        adopted: true
+        owner: ObjectId("as35f3as54d3v51ad3f5g454317")
+        image: 31d3sg5fh4f3s1fdb3s54gh.jpg

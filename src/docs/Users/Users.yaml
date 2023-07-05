@@ -1,0 +1,101 @@
+paths:
+  /api/users/:
+    get:
+      summary: Obtiene todos los usuarios
+      tags:
+        - Users
+      responses:
+        "200":
+          description: Los usuarios fueron obtenidos exitosamente desde la base de datos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/User"
+        "500":
+          description: Error interno del servidor. Usualmente es debido a un error en la conexión con la base de datos
+  /api/users/{uid}:
+    get:
+      summary: Obtiene un solo usuario a partir de su id
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: id del usuario que se desea solicitar
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Usuario Encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/User"
+    put:
+      summary: Actualiza un usuario a partir de su Id
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: id del usuario que se desea actualizar
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/updateUser"
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado de mongo
+        first_name:
+          type: String
+          description: Nombre del usuario
+        last_name:
+          type: String
+          description: Apellido del usuario
+        email:
+          type: String
+          description: Correo del usuario. Este campo es unico
+        password:
+          type: String
+          description: Contraseña Hasheada del usuario
+      example:
+        _id: ObjectId("as35f3as54d3v51ad3f5g454315")
+        first_name: Mauricio
+        last_name: Espinosa
+        email: mau@correo.com
+        password: $4$s24df35ds4fg3513sx54cg65d4fg$%$&$%
+  requestBodies:
+    updateUser:
+      type: object
+      properties:
+        first_name:
+          type: String
+          description: Nombre del usuario
+        last_name:
+          type: String
+          description: Apellido del usuario
+        email:
+          type: String
+          description: Correo del usuario. Este campo es unico
+        password:
+          type: String
+          description: Contraseña del usuario. Posteriormente hasheada
+      example:
+        first_name: Marisol
+        last_name: Cadena
+        email: mari@correo.com
+        password: 123
