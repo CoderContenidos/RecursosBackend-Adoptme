@@ -17,8 +17,8 @@ const register = async (req, res) => {
             password: hashedPassword
         }
         let result = await usersService.create(user);
-        console.log(result);
-        res.send({ status: "success", payload: result._id });
+        console.log("USER", result);
+        res.send({ status: "success", payload: result });
     } catch (error) {
 
     }
