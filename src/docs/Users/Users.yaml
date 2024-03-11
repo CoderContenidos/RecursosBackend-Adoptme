@@ -1,0 +1,42 @@
+paths:
+  /api/users/:
+    get:
+      summary: Obtiene todos los usuarios
+      tags:
+        - Users
+      responses:
+        "200":
+          description: Los usuarios fueron obtenidos satisfactoriamente de la base de datos
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conxeión con la base de datos
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado de Mongo
+        first_name:
+          type: String
+          description: Nombre del usuario
+        last_name:
+          type: String
+          description: Apellido del usuario
+        email:
+          type: String
+          description: Correo del usuario, este campo es único
+        password:
+          type: String
+          description: Contraseña Hasheada del usuario.
+        role:
+          type: String
+          description: Rol del usuario dentro de la app
+      example:
+        _id: ObjectId("65ef7085ed5e0f2672bc14fc")
+        first_name: 'Mauricio'
+        last_name: 'Ojeda'
+        email: 'maurik-po@mail.com'
+        password: '$2b$10$Ja02M9Mba5jCBEhswu2zS.0ttCT0KFpnEa85VDvCTk4jYQLjSXziK'
+        role: 'user'
