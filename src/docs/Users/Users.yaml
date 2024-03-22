@@ -1,4 +1,39 @@
 paths:
+  /api/sessions/register:
+    post:
+      summary: Registrar un nuevo usuario
+      tags:
+        - Session
+      requestBody:
+        description: Usuario nuevo
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/requestBodies/User'
+      responses:
+        "200":
+          description: Usuario registrado satisfactoriamente
+          content:
+            application/json: 
+              schema:
+                type: ObjectId
+                description: id autogenerado de Mongo
+              example: 65ef7085ed5e0f2672bc14fc
+        "400":
+          description: Posibles errores
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                faltantes:
+                  summary: Campos faltantes
+                  value: Incomplete values
+                existente:
+                  summary: Email ya registrado
+                  value: User already exists
+
   /api/users/:
     get:
       summary: Obtiene todos los usuarios
@@ -13,9 +48,100 @@ paths:
                 type: array
                 items:
                   type: object
-                  $ref: `#components/schemas/User`
+                  $ref: '#components/schemas/User'
         "500":
           description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conxeión con la base de datos
+
+  /api/users/{uid}:
+    get:
+      summary: Obtiene un solo usuario a partir de su id
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: id del usuario que se desea solicitar.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#components/schemas/User'
+        "404":
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                type: string
+                example: User not found
+
+
+    put:
+      summary: Actualiza un usuario a partir de su id
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: id del usuario que se desea solicitar.
+          schema:
+            type: string
+      requestBody:
+        description: Propiedades a actualizar
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/requestBodies/User'
+      responses:
+        "200":
+          description: Usuario actualizado
+          content:
+            application/json:
+              schema:
+                type: string
+                example: success
+        "404":
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                type: string
+                example: User not found
+
+    delete:
+      summary: Eliminar un usuario por id
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: id del usuario que se desea solicitar.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Usuario eliminado
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#components/schemas/User'
+        "404":
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                type: string
+                example: User not found
+
 
 components:
   schemas:
@@ -24,7 +150,7 @@ components:
       properties:
         _id:
           type: ObjectId
-          description: Id autogenerado de Mongo
+          description: id autogenerado de Mongo
         first_name:
           type: String
           description: Nombre del usuario
@@ -36,7 +162,7 @@ components:
           description: Correo del usuario, este campo es único
         password:
           type: String
-          description: Contraseña Hasheada del usuario.
+          description: Contraseña hasheada del usuario.
         role:
           type: String
           description: Rol del usuario dentro de la app
@@ -47,3 +173,25 @@ components:
         email: 'maurik-po@mail.com'
         password: '$2b$10$Ja02M9Mba5jCBEhswu2zS.0ttCT0KFpnEa85VDvCTk4jYQLjSXziK'
         role: 'user'
+
+    requestBodies:
+      User:
+        type: object
+        properties:
+          first_name:
+            type: String
+            description: Nombre del usuario
+          last_name:
+            type: String
+            description: Apellido del usuario
+          email:
+            type: String
+            description: Correo del usuario, este campo es único
+          password:
+            type: String
+            description: Contraseña del usuario (posteriormente hasheada).
+        example:
+          first_name: Marisol
+          last_name: Cadena
+          email: correoMarisol@correo.com
+          password: "123"
