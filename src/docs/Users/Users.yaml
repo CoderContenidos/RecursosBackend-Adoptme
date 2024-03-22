@@ -7,6 +7,13 @@ paths:
       responses:
         "200":
           description: Los usuarios fueron obtenidos satisfactoriamente de la base de datos
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  type: object
+                  $ref: `#components/schemas/User`
         "500":
           description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conxeión con la base de datos
 

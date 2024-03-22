@@ -1,0 +1,4 @@
+{
+  "verbose": true,
+  "ext": ".js, .mjs, .coffee, .litcoffee, .json, .yaml"
+}
